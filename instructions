@@ -39,45 +39,116 @@ export default function App() {
 
 
 ⸻
+2. Expense Tracker 
 
-📌 2. Expense Manager (React Native)
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button } from 'react-native';
 
-Aim
+export default function App() {
 
-To track total expenses.
+  const [amount, setAmount] = useState('');
+  const [total, setTotal] = useState(0);
 
-const addExpense = () => {
-  setTotal(total + parseFloat(amount));
-  setAmount('');
-};
+  const addExpense = () => {
+    if (amount === '') return;
 
+    setTotal(total + parseFloat(amount));
+    setAmount('');
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <Text>Expense Manager</Text>
+
+      <TextInput
+        placeholder="Enter amount"
+        value={amount}
+        onChangeText={setAmount}
+        keyboardType="numeric"
+      />
+
+      <Button title="Add Expense" onPress={addExpense} />
+
+      <Text>Total Expense: {total}</Text>
+    </View>
+  );
+}
 
 ⸻
 
 📌 3. Unit Converter (React Native)
 
-Aim
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button } from 'react-native';
 
-To convert kilometers to miles.
+export default function App() {
 
-const convert = () => {
-  let result = parseFloat(km) * 0.621;
-  setMiles(result.toFixed(2));
-};
+  const [km, setKm] = useState('');
+  const [miles, setMiles] = useState('');
+
+  const convert = () => {
+    if (km === '') return;
+
+    let result = parseFloat(km) * 0.621;
+    setMiles(result.toFixed(2));
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <Text>Unit Converter</Text>
+
+      <TextInput
+        placeholder="Enter KM"
+        value={km}
+        onChangeText={setKm}
+        keyboardType="numeric"
+      />
+
+      <Button title="Convert" onPress={convert} />
+
+      <Text>Miles: {miles}</Text>
+    </View>
+  );
+}
 
 
 ⸻
 
 📌 4. To-Do List (React Native)
 
-Aim
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button } from 'react-native';
 
-To add and display tasks.
+export default function App() {
 
-const addTask = () => {
-  setList([...list, task]);
-  setTask('');
-};
+  const [task, setTask] = useState('');
+  const [list, setList] = useState([]);
+
+  const addTask = () => {
+    if (task === '') return;
+
+    setList([...list, task]);
+    setTask('');
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <Text>To Do List</Text>
+
+      <TextInput
+        value={task}
+        onChangeText={setTask}
+        placeholder="Enter task"
+      />
+
+      <Button title="Add Task" onPress={addTask} />
+
+      {list.map((item, index) => (
+        <Text key={index}>{item}</Text>
+      ))}
+    </View>
+  );
+}
 
 
 ⸻
@@ -105,6 +176,25 @@ function login() {
   }
 }
 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login App</title>
+</head>
+<body>
+
+  <h2>Login</h2>
+
+  <input type="text" id="user" placeholder="Username"><br><br>
+  <input type="password" id="pass" placeholder="Password"><br><br>
+
+  <button onclick="login()">Login</button>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
+
 
 ⸻
 
@@ -128,7 +218,21 @@ function getLocation() {
   );
 }
 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Location App</title>
+</head>
+<body>
 
+  <h2>Get Location</h2>
+
+  <button onclick="getLocation()">Get Location</button>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
 ⸻
 
 📌 7. Library Management System (Android - Java + SQLite)
