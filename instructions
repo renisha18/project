@@ -1,0 +1,201 @@
+
+📌 1. BMI Calculator (React Native)
+
+Aim
+
+To calculate Body Mass Index (BMI) using height and weight.
+
+Code
+
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button } from 'react-native';
+
+export default function App() {
+
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
+  const [bmi, setBmi] = useState('');
+
+  const calculateBMI = () => {
+    let h = parseFloat(height) / 100;
+    let w = parseFloat(weight);
+    let result = w / (h * h);
+    setBmi(result.toFixed(2));
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <Text>BMI Calculator</Text>
+
+      <TextInput placeholder="Height (cm)" onChangeText={setHeight} />
+      <TextInput placeholder="Weight (kg)" onChangeText={setWeight} />
+
+      <Button title="Calculate" onPress={calculateBMI} />
+
+      <Text>BMI: {bmi}</Text>
+    </View>
+  );
+}
+
+
+⸻
+
+📌 2. Expense Manager (React Native)
+
+Aim
+
+To track total expenses.
+
+const addExpense = () => {
+  setTotal(total + parseFloat(amount));
+  setAmount('');
+};
+
+
+⸻
+
+📌 3. Unit Converter (React Native)
+
+Aim
+
+To convert kilometers to miles.
+
+const convert = () => {
+  let result = parseFloat(km) * 0.621;
+  setMiles(result.toFixed(2));
+};
+
+
+⸻
+
+📌 4. To-Do List (React Native)
+
+Aim
+
+To add and display tasks.
+
+const addTask = () => {
+  setList([...list, task]);
+  setTask('');
+};
+
+
+⸻
+
+📌 5. Login App (Apache Cordova)
+
+Commands
+
+npm install -g cordova
+cordova create LoginApp
+cd LoginApp
+cordova platform add android
+cordova run android
+
+JavaScript
+
+function login() {
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  if (u == "admin" && p == "123") {
+    alert("Login Success");
+  } else {
+    alert("Invalid");
+  }
+}
+
+
+⸻
+
+📌 6. Location App (Apache Cordova)
+
+Commands
+
+cordova create LocationApp
+cd LocationApp
+cordova platform add android
+cordova plugin add cordova-plugin-geolocation
+cordova run android
+
+JavaScript
+
+function getLocation() {
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      alert("Lat: " + pos.coords.latitude);
+    }
+  );
+}
+
+
+⸻
+
+📌 7. Library Management System (Android - Java + SQLite)
+
+Aim
+
+To store book details using SQLite database.
+
+XML Layout
+
+<LinearLayout
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editTextBookName"
+        android:hint="Book Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/editTextAuthor"
+        android:hint="Author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:text="Save"
+        android:onClick="sav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
+MainActivity.java
+
+public void sav(View v) {
+    String name = editTextBookName.getText().toString();
+    String author = editTextAuthor.getText().toString();
+
+    db.save(name, author);
+    Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+}
+
+DB.java
+
+public class DB extends SQLiteOpenHelper {
+
+    public DB(Context context) {
+        super(context, "LibraryDB", null, 1);
+    }
+
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT)");
+    }
+
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS books");
+        onCreate(db);
+    }
+
+    public void save(String name, String author) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("name", name);
+        cv.put("author", author);
+        db.insert("books", null, cv);
+    }
+}
