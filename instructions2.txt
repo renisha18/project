@@ -1,0 +1,123 @@
+from flask import Flask, request, jsonify
+app = Flask(__name__)
+items = [
+    {"id": 1, "name": "Laptop"},
+    {"id": 2, "name": "Phone"}
+]
+@app.route('/items', methods=['GET'])
+def get_items():
+    return jsonify(items)
+@app.route('/items/<int:item_id>', methods=['GET'])
+def get_item(item_id):
+    for item in items:
+        if item["id"] == item_id:
+            return jsonify(item)
+    return jsonify({"error": "Item not found"}), 404
+@app.route('/items', methods=['POST'])
+def create_item():
+    data = request.get_json()
+    new_item = {
+        "id": items[-1]["id"] + 1 if items else 1,
+        "name": data.get("name")
+    }
+    items.append(new_item)
+    return jsonify({
+        "message": "Item created",
+        "item": new_item
+    }), 201
+@app.route('/items/<int:item_id>', methods=['PUT'])
+def update_item(item_id):
+    data = request.get_json()
+    for item in items:
+        if item["id"] == item_id:
+            item["name"] = data.get("name", item["name"])
+            return jsonify({
+                "message": "Item updated",
+                "item": item
+            })
+
+    return jsonify({"error": "Item not found"}), 404
+@app.route('/items/<int:item_id>', methods=['PATCH'])
+def patch_item(item_id):
+    data = request.get_json()
+
+    for item in items:
+        if item["id"] == item_id:
+            if "name" in data:
+                item["name"] = data["name"]
+
+            return jsonify({
+                "message": "Item partially updated",
+                "item": item
+            })
+    return jsonify({"error": "Item not found"}), 404
+@app.route('/items/<int:item_id>', methods=['DELETE'])
+def delete_item(item_id):
+    for item in items:
+        if item["id"] == item_id:
+            items.remove(item)
+            return jsonify({"message": "Item deleted"})
+
+    return jsonify({"error": "Item not found"}), 404
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+curl -X POST http://127.0.0.1:5000/items \
+-H "Content-Type: application/json" \
+-d '{"name":"Tablet"}'
+
+curl -X PUT http://127.0.0.1:5000/items/1 \
+-H "Content-Type: application/json" \
+-d '{"name":"Updated Laptop"}'
+
+curl -X PATCH http://127.0.0.1:5000/items/1 \
+-H "Content-Type: application/json" \
+-d '{"name":"Partial Update"}'
+
+curl -X DELETE http://127.0.0.1:5000/items/1
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Security Lab Demo</title>
+</head>
+<body>
+    <h2>Security Awareness Demo</h2>
+
+    <form action="log.php" method="POST">
+        <input type="text" name="username" placeholder="Enter demo username" required><br><br>
+        <input type="password" name="password" placeholder="Enter demo password" required><br><br>
+        <button type="submit">Submit (Demo)</button>
+    </form>
+</body>
+</html>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Get input
+    $username = $_POST["username"] ?? '';
+    $password = $_POST["password"] ?? '';
+
+    // Basic sanitization (prevents weird injections in log file)
+    $username = htmlspecialchars($username);
+    $password = htmlspecialchars($password);
+
+    // Create log entry
+    $entry = "Time: " . date("Y-m-d H:i:s") . "\n";
+    $entry .= "Username: $username\n";
+    $entry .= "Password: $password\n";
+    $entry .= "----------------------\n";
+
+    // Save to log.txt
+    file_put_contents("log.txt", $entry, FILE_APPEND);
+
+    echo "<h3>Data recorded for lab demonstration.</h3>";
+}
+?>
+
+save it in htdocs, get the ip address and put infront to run it. ipconfig - to get ip address. 
