@@ -121,3 +121,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 save it in htdocs, get the ip address and put infront to run it. ipconfig - to get ip address. 
+
+
+
+
+
+
+
+
+🚀 STEP 3: Install Ansible (Q9)
+sudo apt update
+sudo apt install ansible -y
+✅ Verify
+ansible --version
+
+STEP 4: Create Inventory File
+nano hosts
+Paste:
+[local]
+localhost ansible_connection=local
+
+ansible -i hosts local -m ping
+
+nano ping.yml
+Paste:
+- name: Ping test
+  hosts: local
+  tasks:
+    - name: Ping localhost
+      ping:
+▶️ Run:
+ansible-playbook -i hosts ping.yml
+
+nano web.yml
+
+- name: Install web server
+  hosts: local
+  become: yes
+
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+
+    - name: Start Apache
+      service:
+        name: apache2
+        state: started
+
+    - name: Create web page
+      copy:
+        content: "Hello from Ansible Lab!"
+        dest: /var/www/html/index.html
+
+ansible-playbook -i hosts web.yml
+
+check output in localhost. 
+
